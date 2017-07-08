@@ -45,23 +45,48 @@ func main() {
 
 	myprojURL := "https://www.googleapis.com/compute/v1/projects/" + *pname
 
+	if *ops == "" {
+		*ops = "x"
+	}
+
 	if *ops == "I" {
-		fmt.Println("Creating New VM Instance.... using Insert command")
-		createVMinstance(*pname, *zone, *instanceName, *machineType, *scrimage)
+
+		if (*pname == "") || (*zone == "") || (*instanceName == "") || (*machineType == "") || (*scrimage == "") {
+			fmt.Println("Error:Please provide mandatory argumnts for creating new VM instance..")
+			Helpme()
+		} else {
+			fmt.Println("Creating New VM Instance.... using Insert command")
+			createVMinstance(*pname, *zone, *instanceName, *machineType, *scrimage)
+		}
 
 	} else if *ops == "H" {
-		fmt.Println("Creating New HealthCheck Instance.... using Insert command")
-		createHealthchk(*pname, *zone, myprojURL, *hinstanceName)
+
+		if (*pname == "") || (*zone == "") || (*hinstanceName == "") {
+			fmt.Println("Error:Please provide mandatory argumnts for creating new Healthcheck instance..")
+			Helpme()
+		} else {
+			fmt.Println("Creating New HealthCheck Instance.... using Insert command")
+			createHealthchk(*pname, *zone, myprojURL, *hinstanceName)
+		}
 
 	} else if *ops == "B" {
-		fmt.Println("Creating New VM Instance and Healthcheck instance")
-		createVMinstance(*pname, *zone, *instanceName, *machineType, *scrimage)
-		createHealthchk(*pname, *zone, myprojURL, *hinstanceName)
-
+		if (*pname == "") || (*zone == "") || (*instanceName == "") || (*machineType == "") || (*scrimage == "") || (*hinstanceName == "") {
+			fmt.Println("Error:Please provide mandatory argumnts for creating new VM & Healthcheck instance..")
+			Helpme()
+		} else {
+			fmt.Println("Creating New VM Instance and Healthcheck instance")
+			createVMinstance(*pname, *zone, *instanceName, *machineType, *scrimage)
+			createHealthchk(*pname, *zone, myprojURL, *hinstanceName)
+		}
 	} else {
-		fmt.Println("Checking HealthCheck response for " + *hinstanceName)
-		Hcresponse := HealthStatusGet(*pname, *hinstanceName)
-		fmt.Println(Hcresponse)
+		if *hinstanceName == "" {
+			fmt.Println("Error:Please provide Healthcheck instance name..")
+			Helpme()
+		} else {
+			fmt.Println("Checking HealthCheck response for " + *hinstanceName)
+			Hcresponse := HealthStatusGet(*pname, *hinstanceName)
+			fmt.Println(Hcresponse)
+		}
 	}
 
 }
@@ -252,4 +277,21 @@ func HealthStatusGet(project string, hcName string) int {
 	}
 
 	return resp.HTTPStatusCode
+}
+
+func Helpme() {
+	fmt.Println("-----------------------------------------------------------------------")
+	fmt.Println("Usage:")
+	fmt.Println("-----------------------------------------------------------------------")
+
+	fmt.Println("GCEOps.go -pn=PROJECT_NAME -zn=ZONE -in=VMNAME -mt=MACHINE_TYPE -si=SOURCE_IMAGE_PATH -ops=TYPE_OF_OPERATION")
+	fmt.Println("Where:")
+	fmt.Println("-pn (Type string): PROJECT NAME")
+	fmt.Println("-zn (Type string): ZONE, e.g. us-central1-a")
+	fmt.Println("-in (Type string): INSTANCE NAME (VM NAME), e.g. mynewvm")
+	fmt.Println("-mt (Type string): MACHINE TYPE, e.g. f1-micro")
+	fmt.Println("-si (Type string): PATH TO SOURCE IMAGE, e.g. centos-cloud/global/images/centos-6-v20170620")
+	fmt.Println("-ops (Type string): TYPE OF OPERATIONS e.g. I for create new instance, H for create new HealthCheck, B for creating new VM & HealthCheck instance and default is HealthCheck response.")
+	fmt.Println("-hin (Type string): INSTANCE NAME (VM NAME), e.g. mynewhealthcheck")
+	fmt.Println("-----------------------------------------------------------------------")
 }
