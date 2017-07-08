@@ -1,20 +1,5 @@
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	# GoGCE
+# GoGCE
 Google GCE GoLang
 
 Script sverves following purposes:
