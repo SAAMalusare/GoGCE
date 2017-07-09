@@ -17,7 +17,7 @@ func main() {
 		-----------------------------------------------------------------------------------------------
 
 		go run GCEOps.go -pn=crygce-test -zn=us-central1-a -in=mynewinstance001 -mt=f1-micro -si=centos-cloud/global/images/centos-6-v20170620 -ops=I
-		go run GCEOps.go -pn=crygce-test -ops= -hin=healthcheck007
+		go run GCEOps.go -pn=crygce-test -hin=healthcheck007
 		go run GCEOps.go -pn=crygce-test -zn=us-central1-a -ops=H -hin=myhc001
 
 	*/
