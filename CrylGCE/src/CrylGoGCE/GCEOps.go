@@ -293,7 +293,3 @@ func Helpme() {
 	fmt.Println("-hin (Type string): INSTANCE NAME (VM NAME), e.g. mynewhealthcheck")
 	fmt.Println("-----------------------------------------------------------------------")
 }
-
-func ConvertToLower(str2conv string) string {
-	return strings.ToLower(str2conv)
-}
