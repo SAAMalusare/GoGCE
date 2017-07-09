@@ -7,12 +7,11 @@ Script sverves following purposes:
 2. Creating New healthcheck instance on GCE
 3. Checking Healthcheck of Given instance
 
-----------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 Script usage:
-----------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 GCEOps.go -pn=crygce-test -zn=us-central1-a -in=mynewinstance001 -mt=f1-micro -si=centos-cloud/global/images/centos-6-v20170620 -ops=I
-----------------------------------------------------------------------------------------------------------------------
-Where:
+------------------------------------------------------------------------------------------
 -pn (Type string): PROJECT NAME
 -zn (Type string): ZONE, e.g. us-central1-a
 -in (Type string): INSTANCE NAME (VM NAME), e.g. mynewvm
@@ -23,9 +22,9 @@ Where:
                     B for creating new VM & HealthCheck instance and
                     default is HealthCheck response.
 -hin (Type string): INSTANCE NAME (VM NAME), e.g. mynewhealthcheck
-----------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 Parameter requiredness:
-----------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 if OPS = "I"
 Mandatory Parameters: Project name, Zone, Source Image, Instance name, MachineType, Operation
 e.g.
@@ -45,4 +44,4 @@ if OPS = ""
 Mandatory Parameters: Healthcheck Instance name
 e.g.
 GCEOps.go -hin=healthcheckinstance
-----------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
