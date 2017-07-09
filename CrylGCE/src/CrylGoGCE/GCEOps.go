@@ -7,19 +7,17 @@ import (
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/compute/v0.beta"
 	"log"
-	//"os"
+	"strings"
 )
 
 func main() {
-	// Suhas:- Get all parameters from commandline
-	// -----------------------------------------------------------------------------------------------
-	//go run GCEOps.go -pn=crygce-test -zn=us-central1-a -in=mynewinstance001 -mt=f1-micro -si=centos-cloud/global/images/centos-6-v20170620 -ops=I
 
 	/*
-		Get HealthCheck for HC instance
+		Suhas:- Get all parameters from commandline
+		-----------------------------------------------------------------------------------------------
+
+		go run GCEOps.go -pn=crygce-test -zn=us-central1-a -in=mynewinstance001 -mt=f1-micro -si=centos-cloud/global/images/centos-6-v20170620 -ops=I
 		go run GCEOps.go -pn=crygce-test -ops= -hin=healthcheck007
-
-
 		go run GCEOps.go -pn=crygce-test -zn=us-central1-a -ops=H -hin=myhc001
 
 	*/
@@ -56,7 +54,7 @@ func main() {
 			Helpme()
 		} else {
 			fmt.Println("Creating New VM Instance.... using Insert command")
-			createVMinstance(*pname, *zone, *instanceName, *machineType, *scrimage)
+			createVMinstance(strings.ToLower(*pname), *zone, strings.ToLower(*instanceName), *machineType, *scrimage)
 		}
 
 	} else if *ops == "H" {
@@ -66,7 +64,7 @@ func main() {
 			Helpme()
 		} else {
 			fmt.Println("Creating New HealthCheck Instance.... using Insert command")
-			createHealthchk(*pname, *zone, myprojURL, *hinstanceName)
+			createHealthchk(strings.ToLower(*pname), *zone, myprojURL, strings.ToLower(*hinstanceName))
 		}
 
 	} else if *ops == "B" {
@@ -75,8 +73,8 @@ func main() {
 			Helpme()
 		} else {
 			fmt.Println("Creating New VM Instance and Healthcheck instance")
-			createVMinstance(*pname, *zone, *instanceName, *machineType, *scrimage)
-			createHealthchk(*pname, *zone, myprojURL, *hinstanceName)
+			createVMinstance(strings.ToLower(*pname), *zone, strings.ToLower(*instanceName), *machineType, *scrimage)
+			createHealthchk(strings.ToLower(*pname), *zone, myprojURL, strings.ToLower(*hinstanceName))
 		}
 	} else {
 		if *hinstanceName == "" {
@@ -84,7 +82,7 @@ func main() {
 			Helpme()
 		} else {
 			fmt.Println("Checking HealthCheck response for " + *hinstanceName)
-			Hcresponse := HealthStatusGet(*pname, *hinstanceName)
+			Hcresponse := HealthStatusGet(strings.ToLower(*pname), strings.ToLower(*hinstanceName))
 			fmt.Println(Hcresponse)
 		}
 	}
@@ -294,4 +292,8 @@ func Helpme() {
 	fmt.Println("-ops (Type string): TYPE OF OPERATIONS e.g. I for create new instance, H for create new HealthCheck, B for creating new VM & HealthCheck instance and default is HealthCheck response.")
 	fmt.Println("-hin (Type string): INSTANCE NAME (VM NAME), e.g. mynewhealthcheck")
 	fmt.Println("-----------------------------------------------------------------------")
+}
+
+func ConvertToLower(str2conv string) string {
+	return strings.ToLower(str2conv)
 }
